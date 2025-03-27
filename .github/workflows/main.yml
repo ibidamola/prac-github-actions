@@ -37,24 +37,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          npm ci
-          npm install -D vite @vitejs/plugin-react vitest jsdom
+        run: npm install
 
       
-      - name: Create .env file
-        run: |
-          echo "VITE_API_URL=${API_URL}" >> .env
-          echo "VITE_APP_NAME=openweathermap" >> .env
-
-      - name: Verify Vite installation
-        run: |
-          cat vite.config.js
-          npx vite --version
-
-      - name: Build the project
-        run: npm run build
-
       - name: Install testing dependencies
         run: npm install --save-dev jsdom
 
