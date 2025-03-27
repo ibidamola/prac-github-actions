@@ -1,0 +1,40 @@
+
+
+# Name of the workflow
+name: Node.js CI/CD pipeline
+
+# Specifies when the workflow should be triggered
+on:
+  push:
+    branches: 
+    - main 
+  pull_request:
+    branches:
+    - main 
+
+# Defines the jobs that the workflow will execute
+jobs:
+  # Job identifier, can be any name (here it's 'build')
+  build:
+    # Specifies the type of virtual host environment (runner) to use
+    runs-on: ubuntu-latest
+      
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project (if build script exists)
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
