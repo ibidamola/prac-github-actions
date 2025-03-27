@@ -49,7 +49,8 @@ jobs:
       - name: Print Environment Variables
         run: cat .env
 
-     
+      - name: Install build dependencies
+        run: npm install --save-dev vite @vitejs/plugin-react
             
       - name: Build the project (if build script exists)
         run: npm run build
