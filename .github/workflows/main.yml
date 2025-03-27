@@ -12,9 +12,7 @@ on:
     branches:
     - main 
 
-env:
-    NODE_ENV: production
-    API_URL: https://api.openweathermap.org/data/2.5
+
 
 # Cache dependencies
 # Defines the jobs that the workflow will execute
