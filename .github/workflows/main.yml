@@ -12,6 +12,11 @@ on:
     branches:
     - main 
 
+env:
+    NODE_ENV: production
+    API_URL: https://api.openweathermap.org/data/2.5
+
+# Cache dependencies
 # Defines the jobs that the workflow will execute
 jobs:
   # Job identifier, can be any name (here it's 'build')
@@ -36,6 +41,13 @@ jobs:
       - name: Install testing dependencies
         run: npm install --save-dev jsdom
 
+      - name: Create .env file
+        run: |
+          echo "VITE_API_URL=${API_URL}" >> .env
+          echo "VITE_APP_NAME=openweathermap" >> .env
+
+      - name: Print Environment Variables
+        run: cat .env
 
       - name: Build the project (if build script exists)
         run: npm run build
