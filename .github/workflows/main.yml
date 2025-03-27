@@ -39,7 +39,10 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm install -g vite @vitejs/plugin-react
+          npm install -D vite @vitejs/plugin-react vitest jsdom
+
+      - name: List installed packages
+        run: npm list vite @vitejs/plugin-react
 
       - name: Create .env file
         run: |
@@ -48,8 +51,8 @@ jobs:
 
       - name: Verify Vite installation
         run: |
-          which vite
-          vite --version
+          cat vite.config.ts
+          npx vite --version
 
       - name: Build the project
         run: npm run build

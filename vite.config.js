@@ -8,4 +8,7 @@ export default defineConfig({
     globals: true, // Enables global test functions like 'test' and 'expect'
     environment: "jsdom", // Needed for testing React components
   },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
+  }
 })
