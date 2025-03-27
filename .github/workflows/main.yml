@@ -38,8 +38,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       
-      - name: Install testing dependencies
-        run: npm install --save-dev jsdom
+ 
 
       - name: Create .env file
         run: |
@@ -52,5 +51,8 @@ jobs:
       - name: Build the project (if build script exists)
         run: npm run build
 
+      - name: Install testing dependencies
+        run: npm install --save-dev jsdom
+        
       - name: Run tests
         run: npx vitest 
