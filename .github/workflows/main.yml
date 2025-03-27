@@ -41,9 +41,7 @@ jobs:
           npm ci
           npm install -D vite @vitejs/plugin-react vitest jsdom
 
-      - name: List installed packages
-        run: npm list vite @vitejs/plugin-react
-
+      
       - name: Create .env file
         run: |
           echo "VITE_API_URL=${API_URL}" >> .env
