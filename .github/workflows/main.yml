@@ -49,7 +49,7 @@ jobs:
 
       - name: Verify Vite installation
         run: |
-          cat vite.config.ts
+          cat vite.config.js
           npx vite --version
 
       - name: Build the project
