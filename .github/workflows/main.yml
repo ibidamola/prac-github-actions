@@ -24,17 +24,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16,18,20]
+        node-version: [18,20]
         include:
-          - node-version: 16
-            cache: 'npm'
+         
           - node-version: 18
             cache: 'npm'
           - node-version: 20
             cache: 'npm'
-
-
-    
       
 
     # Steps represent a sequence of tasks that will be executed as part of the job
