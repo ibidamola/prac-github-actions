@@ -21,6 +21,22 @@ jobs:
   build:
     # Specifies the type of virtual host environment (runner) to use
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16,18,20]
+        include:
+          - node-version: 16
+            cache: 'npm'
+          - node-version: 18
+            cache: 'npm'
+          - node-version: 20
+            cache: 'npm'
+
+
+    # Cache Node.js dependencies
+    # This step is necessary to avoid re-installing dependencies on every build
+    cache:
       
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -31,7 +47,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - name: Create .env file
@@ -42,7 +58,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
+      - name: Build the projects
         run: npm run build
 
       
