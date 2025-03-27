@@ -34,6 +34,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
@@ -48,16 +49,12 @@ jobs:
       - name: Print Environment Variables
         run: cat .env
 
-      - name: Cache Node Modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
+     
             
       - name: Build the project (if build script exists)
         run: npm run build
+        env:
+          VITE_API_URL: ${{ env.API_URL }}
 
       - name: Install testing dependencies
         run: npm install --save-dev jsdom
