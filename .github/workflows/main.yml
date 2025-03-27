@@ -32,9 +32,13 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+      - name: Install testing dependencies
+        run: npm install --save-dev jsdom
+
 
       - name: Build the project (if build script exists)
         run: npm run build
 
       - name: Run tests
-        run: npm test 
+        run: npm vitest 
