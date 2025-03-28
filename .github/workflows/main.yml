@@ -45,7 +45,12 @@ jobs:
           cache: 'npm'
 
     # Step 3: Cache dependencies
-   
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
 
     # Step 4: Create .env file
       - name: Create .env file
@@ -74,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -82,7 +87,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - name: Cache npm dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
