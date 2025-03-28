@@ -77,8 +77,19 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}  # Private SSH key from GitHub Secrets
           port: 22
           script: |
-            cd /var/www/html/prac-git-actions  # Path to your project on EC2
-            git pull origin main  # Pull the latest code from GitHub
+            # Ensure the directory exists
+            if [ ! -d "/var/www/html/prac-git-actions" ]; then
+              cd /var/www/html
+              git clone https://github.com/ibidamola/prac-github-actions.git prac-git-actions
+            else
+              cd /var/www/html/prac-git-actions
+              git pull origin main  # Pull the latest code from GitHub
+            fi
+            
             npm install  # Install dependencies
             npm run build  # Build the project
+            # Move built files to the correct directory (optional, if needed)
+            sudo rm -rf /var/www/html/*
+            sudo mv dist/* /var/www/html/
+            
             sudo systemctl restart apache2  # Restart Apache to reflect changes
