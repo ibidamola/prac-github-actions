@@ -44,7 +44,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-    # Step 3: Create .env file
+    # Step 3: Cache dependencies
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+    # Step 4: Create .env file
       - name: Create .env file
         run: |
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env
@@ -78,7 +85,13 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+          
       - name: Install dependencies
         run: npm install
 
