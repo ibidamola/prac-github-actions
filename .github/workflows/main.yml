@@ -68,29 +68,4 @@ jobs:
       - name: Run tests
         run: npx vitest 
 
-    # Step 8: Deploy to EC2
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: ${{ secrets.EC2_HOST }}  # Your EC2 instance IP
-          username: ${{ secrets.EC2_USER }}  # EC2 username (e.g., ubuntu)
-          key: ${{ secrets.EC2_SSH_KEY }}  # Private SSH key from GitHub Secrets
-          port: 22
-          script: |
-            # Ensure the directory exists
-            if [ ! -d "/var/www/html/prac-git-actions" ]; then
-              cd /var/www/html
-              git clone https://github.com/ibidamola/prac-github-actions.git prac-git-actions
-            fi
-            cd /var/www/html/prac-git-actions
-            git pull origin main  # Pull the latest code from GitHub
-            npm install  # Install dependencies
-            npm run build  # Build the project
-
-            # Remove old files in /var/www/html and deploy the build
-            sudo rm -rf /var/www/html/*
-            sudo mv dist/* /var/www/html/
-
-            # Enable mod_rewrite and restart Apache
-            sudo a2enmod rewrite
-            sudo systemctl restart apache2
+   
