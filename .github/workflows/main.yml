@@ -1,87 +1,71 @@
-
-
-# Name of the workflow
 name: Node.js CI/CD pipeline
 
-# Specifies when the workflow should be triggered
 on:
   push:
     branches: 
-    - main 
+      - main 
   pull_request:
     branches:
-    - main 
+      - main 
 
-
-
-# Cache dependencies
-# Defines the jobs that the workflow will execute
 jobs:
-  # Job identifier, can be any name (here it's 'build')
   build:
-    # Specifies the type of virtual host environment (runner) to use
     runs-on: ubuntu-latest
-
+    
+    # Parallel and Matrix Builds: This strategy allows testing across multiple Node.js versions
     strategy:
       matrix:
-        node-version: [18,20]
+        node-version: [18, 20]
         include:
-         
           - node-version: 18
             cache: 'npm'
           - node-version: 20
             cache: 'npm'
-      
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    
     steps:
-    # Step 1: Check out the repository
       - name: Check out the repository
         uses: actions/checkout@v2
 
-    # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-    # Step 3: Create .env file
       - name: Create .env file
         run: |
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env
           echo "VITE_APP_NAME=${{ secrets.VITE_APP_NAME }}" >> .env
 
-    # Step 4: Install dependencies
+      # Managing Build Dependencies: Ensures all required dependencies are installed
       - name: Install dependencies
         run: npm install
 
-    # Step 5: Build the project
       - name: Build the projects
         run: npm run build
 
-    # Step 6: Install testing dependencies
+      # Managing Build Dependencies: Installing additional dependencies required for testing
       - name: Install testing dependencies
         run: npm install --save-dev jsdom
 
-    # Step 7: Run tests
       - name: Run tests
-        run: npx vitest 
+        run: npx vitest
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
-        with: 
-        node-version: 18
-        cache: 'npm'
+        with:
+          node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
-      - run: npm install
+        run: npm install
 
+      # Integrating Code Quality Check: Running ESLint to check code quality
       - name: Run Linter
-      - run: npx esLint .
+        run: npx eslint .
