@@ -9,6 +9,7 @@ lerna-debug.log*
 
 .github/workflows/main-v1.doc
 .github/workflows/main-v2.doc
+.github/workflows/main-v3.doc
 node_modules
 dist
 dist-ssr
