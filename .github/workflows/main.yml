@@ -81,15 +81,16 @@ jobs:
             if [ ! -d "/var/www/html/prac-git-actions" ]; then
               cd /var/www/html
               git clone https://github.com/ibidamola/prac-github-actions.git prac-git-actions
-            else
-              cd /var/www/html/prac-git-actions
-              git pull origin main  # Pull the latest code from GitHub
             fi
-            
+            cd /var/www/html/prac-git-actions
+            git pull origin main  # Pull the latest code from GitHub
             npm install  # Install dependencies
             npm run build  # Build the project
-            # Move built files to the correct directory (optional, if needed)
+
+            # Remove old files in /var/www/html and deploy the build
             sudo rm -rf /var/www/html/*
             sudo mv dist/* /var/www/html/
-            
-            sudo systemctl restart apache2  # Restart Apache to reflect changes
+
+            # Enable mod_rewrite and restart Apache
+            sudo a2enmod rewrite
+            sudo systemctl restart apache2
