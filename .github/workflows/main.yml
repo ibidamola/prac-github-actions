@@ -82,6 +82,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Integrating Code Quality Check: Running ESLint to check code quality
+      # Integrating Code Quality Check: Running ESLint to check code qualities
       - name: Run Linter
         run: npx eslint .
